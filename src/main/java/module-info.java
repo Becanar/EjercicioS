@@ -1,8 +1,11 @@
-module com.example.ejercicios {
+module com.example.ejerciciol {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql.rowset;
 
 
-    opens com.example.ejercicios to javafx.fxml;
-    exports com.example.ejercicios;
+    exports com.example.ejercicios.app;
+    opens com.example.ejercicios.app to javafx.fxml;
+    exports com.example.ejercicios.controladores;
+    opens com.example.ejercicios.controladores to javafx.fxml;
 }
