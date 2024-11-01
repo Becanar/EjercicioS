@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -21,9 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -72,6 +69,14 @@ public class animalesControler implements Initializable {
     private ObservableList lstEntera = FXCollections.observableArrayList();
     private ObservableList lstFiltrada = FXCollections.observableArrayList();
 
+    /**
+     * Maneja el evento de añadir un nuevo animal.
+     *
+     * <p>Este método abre una nueva ventana para añadir un animal. Al cerrar la ventana,
+     * se cargan nuevamente los animales en la tabla.</p>
+     *
+     * @param event el evento de acción.
+     */
     @FXML
     void aniadirAnimal(ActionEvent event) {
         try {
@@ -94,7 +99,7 @@ public class animalesControler implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             cargarAnimales();
-            
+
         } catch (IOException e) {
             ArrayList<String> lst=new ArrayList<>();
             lst.add("No se ha podido abrir la ventana.");
@@ -102,6 +107,11 @@ public class animalesControler implements Initializable {
         }
     }
 
+    /**
+     * Carga la lista de animales en la tabla.
+     *
+     * <p>Este método limpia la tabla y carga todos los animales desde la base de datos.</p>
+     */
     public void cargarAnimales() {
         try {
             tablaVista.getSelectionModel().clearSelection();
@@ -137,7 +147,6 @@ public class animalesControler implements Initializable {
 
             tablaVista.getColumns().addAll(colId, colNombre, colEspecie, colRaza, colSexo, colEdad, colPeso, colObservaciones);
 
-
             ObservableList<Animal> animales = animalDao.cargarListado();
 
             if (animales != null && !animales.isEmpty()) {
@@ -153,7 +162,14 @@ public class animalesControler implements Initializable {
         }
     }
 
-
+    /**
+     * Maneja el evento de borrar un animal seleccionado.
+     *
+     * <p>Este método muestra un cuadro de confirmación antes de eliminar el animal
+     * de la lista y de la base de datos.</p>
+     *
+     * @param event el evento de acción.
+     */
     @FXML
     void borrarAnimal(ActionEvent event) {
         Animal animal = tablaVista.getSelectionModel().getSelectedItem();
@@ -184,7 +200,14 @@ public class animalesControler implements Initializable {
         }
     }
 
-
+    /**
+     * Maneja el evento de editar un animal seleccionado.
+     *
+     * <p>Este método abre una ventana para editar los datos del animal seleccionado.
+     * Al cerrar la ventana, se recargan los animales en la tabla.</p>
+     *
+     * @param event el evento de acción.
+     */
     @FXML
     void editarAnimal(ActionEvent event) {
         Animal animal = (Animal) tablaVista.getSelectionModel().getSelectedItem();
@@ -227,7 +250,14 @@ public class animalesControler implements Initializable {
         }
     }
 
-
+    /**
+     * Muestra la información del animal seleccionado.
+     *
+     * <p>Si no se ha seleccionado ningún animal, se muestra una alerta. De lo contrario,
+     * se muestra un cuadro de diálogo con la información del animal.</p>
+     *
+     * @param event el evento de acción.
+     */
     @FXML
     void infoAnimal(ActionEvent event) {
         Object selectedAnimal = tablaVista.getSelectionModel().getSelectedItem();
@@ -258,7 +288,15 @@ public class animalesControler implements Initializable {
         }
     }
 
-
+    /**
+     * Inicializa el controlador.
+     *
+     * <p>Este método se llama al cargar la vista. Configura los listeners y carga los
+     * animales en la tabla.</p>
+     *
+     * @param url la URL utilizada para localizar recursos.
+     * @param resourceBundle el recurso utilizado para localizar los objetos.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tablaVista.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
@@ -297,6 +335,7 @@ public class animalesControler implements Initializable {
         });
         txtNombre.setOnKeyTyped(keyEvent -> filtrar());
     }
+
     /**
      * Muestra una alerta de error con los mensajes proporcionados.
      *
@@ -323,11 +362,24 @@ public class animalesControler implements Initializable {
         alerta.setContentText(texto);
         alerta.showAndWait();
     }
+
+    /**
+     * Habilita o deshabilita los menús de editar, borrar e información.
+     *
+     * @param deshabilitado Indica si los menús deben ser deshabilitados.
+     */
     public void deshabilitarMenus(boolean deshabilitado) {
         editarAnimal.setDisable(deshabilitado);
         borrarAnimal.setDisable(deshabilitado);
         infoAnimal.setDisable(deshabilitado);
     }
+
+    /**
+     * Filtra los animales en la tabla según el texto ingresado en el campo de texto.
+     *
+     * <p>Este método actualiza la lista de animales mostrada en la tabla basándose
+     * en el nombre ingresado por el usuario.</p>
+     */
     public void filtrar() {
         String valor = txtNombre.getText();
         if (valor==null) {
@@ -336,11 +388,11 @@ public class animalesControler implements Initializable {
             valor = valor.toLowerCase();
             lstFiltrada.clear();
             for (Object animal : lstEntera) {
-                    Animal animall = (Animal) animal;
-                    String nombre = animall.getNombre();
-                    nombre = nombre.toLowerCase();
-                    if (nombre.contains(valor)) {
-                        lstFiltrada.add(animall);}
+                Animal animall = (Animal) animal;
+                String nombre = animall.getNombre();
+                nombre = nombre.toLowerCase();
+                if (nombre.contains(valor)) {
+                    lstFiltrada.add(animall);}
             }
 
             tablaVista.setItems(lstFiltrada);

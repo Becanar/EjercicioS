@@ -101,6 +101,11 @@ public class DatosAnimalController implements Initializable {
 
     private Blob imagenBlob;
 
+    /**
+     * Constructor que inicializa el controlador con un objeto animal.
+     *
+     * @param animal el objeto animal a inicializar.
+     */
     public DatosAnimalController(Object animal) {
         this.animal = animal;
     }
@@ -110,6 +115,11 @@ public class DatosAnimalController implements Initializable {
      */
     public DatosAnimalController(){}
 
+    /**
+     * Establece el objeto animal en el controlador.
+     *
+     * @param animal el objeto animal a establecer.
+     */
     public void setAnimal(Object animal) {
         this.animal = animal;
     }
@@ -133,7 +143,6 @@ public class DatosAnimalController implements Initializable {
             txtPeso.setText(String.valueOf(anm.getPeso()));
             txtObservaciones.setText(anm.getObservaciones());
 
-
             if (anm.getFoto() != null) {
                 System.out.println("Has image");
                 this.imagenBlob = anm.getFoto();
@@ -148,14 +157,22 @@ public class DatosAnimalController implements Initializable {
         }
     }
 
-
+    /**
+     * Maneja el evento de cancelación.
+     *
+     * @param event el evento de acción.
+     */
     @FXML
     void cancelar(ActionEvent event) {
         Stage stage = (Stage) txtNombre.getScene().getWindow();
         stage.close();
     }
 
-
+    /**
+     * Maneja el evento de guardar datos del animal.
+     *
+     * @param event el evento de acción.
+     */
     @FXML
     void guardar(ActionEvent event) {
         ArrayList<String> lst = new ArrayList<>();
@@ -228,6 +245,11 @@ public class DatosAnimalController implements Initializable {
         }
     }
 
+    /**
+     * Modifica los datos del animal existente.
+     *
+     * @return true si la modificación fue exitosa, false de lo contrario.
+     */
     public boolean modificarAnimal() {
         try {
             Animal animal = new Animal();
@@ -296,7 +318,11 @@ public class DatosAnimalController implements Initializable {
         }
     }
 
-
+    /**
+     * Crea un nuevo animal y lo guarda en la base de datos.
+     *
+     * @return true si la creación fue exitosa, false de lo contrario.
+     */
     public boolean crearAnimal() {
         try {
             Animal animal = new Animal();
@@ -357,8 +383,6 @@ public class DatosAnimalController implements Initializable {
         }
     }
 
-
-
     /**
      * Muestra una alerta de error con los mensajes especificados.
      *
@@ -386,6 +410,7 @@ public class DatosAnimalController implements Initializable {
         alerta.setContentText(contenido);
         alerta.showAndWait();
     }
+
     /**
      * Abre un cuadro de diálogo de selección de archivos para que el usuario pueda elegir
      * una imagen y convierte la imagen seleccionada en un objeto Blob para almacenarla en
