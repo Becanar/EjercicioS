@@ -79,18 +79,17 @@ public class loginController implements Initializable {
             } else {
                 if (password.equals(user.getPassword())) {
                     try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(loginController.class.getResource("/com/example/ejerciciom/fxml/aeropuertos.fxml"));
+                        FXMLLoader fxmlLoader = new FXMLLoader(loginController.class.getResource("/com/example/ejercicios/fxml/animales.fxml"));
                         Scene scene = new Scene(fxmlLoader.load());
                         Stage stage = new Stage();
                         stage.setScene(scene);
                         try {
-                            Image img = new Image(getClass().getResource("/com/example/ejerciciom/images/plane.png").toString());
+                            Image img = new Image(getClass().getResource("/com/example/ejercicios/images/veet.jpg").toString());
                             stage.getIcons().add(img);
                         } catch (Exception e) {
-                            lst.add("Error al cargar la imagen.");
-                            error(lst);
+                            System.out.println("Error al cargar la imagen: " + e.getMessage());
                         }
-                        scene.getStylesheets().add(getClass().getResource("/com/example/ejerciciom/estilo/style.css").toExternalForm());
+                        scene.getStylesheets().add(getClass().getResource("/com/example/ejercicios/estilo/style.css").toExternalForm());
                         stage.setTitle("VETERINARIA - ANIMALES");
                         stage.show();
                         Stage esta = (Stage) txtUsuario.getScene().getWindow();
