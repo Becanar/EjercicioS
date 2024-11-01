@@ -1,4 +1,4 @@
-module com.example.ejerciciol {
+module com.example.ejercicios {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql.rowset;
