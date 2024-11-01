@@ -71,9 +71,9 @@ public class animalesControler implements Initializable {
     @FXML
     void aniadirAnimal(ActionEvent event) {
         try {
-            Window ventana = barraMenu.getTooltip().getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/ejercicios/fxml/DatosAnimales.fxml"));
-            DatosAeropuertoController controlador = new DatosAeropuertoController();
+            Window ventana = txtNombre.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/ejercicios/fxml/datosAnimal.fxml"));
+            DatosAnimalController controlador = new DatosAnimalController();
             fxmlLoader.setController(controlador);
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();

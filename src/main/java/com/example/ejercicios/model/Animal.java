@@ -1,6 +1,7 @@
 package com.example.ejercicios.model;
 
 import java.sql.Blob;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -27,6 +28,8 @@ public class Animal {
         this.observaciones = observaciones;
         this.fechaPrimeraConsulta = fechaPrimeraConsulta;
         this.foto = foto;
+    }
+    public Animal(){
     }
 
     public int getId() {
