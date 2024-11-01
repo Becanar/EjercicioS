@@ -133,6 +133,7 @@ public class DatosAnimalController implements Initializable {
             txtPeso.setText(String.valueOf(anm.getPeso()));
             txtObservaciones.setText(anm.getObservaciones());
 
+
             if (anm.getFoto() != null) {
                 System.out.println("Has image");
                 this.imagenBlob = anm.getFoto();
@@ -229,15 +230,13 @@ public class DatosAnimalController implements Initializable {
 
     public boolean modificarAnimal() {
         try {
-            // Creación de un nuevo objeto Animal
             Animal animal = new Animal();
-            animal.setId(ap.getId()); // Presumiblemente, `ap` es la instancia existente que se está modificando
+            animal.setId(ap.getId());
             animal.setNombre(txtNombre.getText());
             animal.setEspecie(txtEspecie.getText());
             animal.setRaza(txtRaza.getText());
             animal.setSexo(txtSexo.getText());
 
-            // Validación y establecimiento de la edad
             if (txtEdad.getText().isEmpty()) {
                 ArrayList<String> lst = new ArrayList<>();
                 lst.add("Campo edad no puede estar vacío");
@@ -246,7 +245,6 @@ public class DatosAnimalController implements Initializable {
             }
             animal.setEdad(Integer.parseInt(txtEdad.getText()));
 
-            // Validación y establecimiento del peso
             if (txtPeso.getText().isEmpty()) {
                 ArrayList<String> lst = new ArrayList<>();
                 lst.add("Campo peso no puede estar vacío");

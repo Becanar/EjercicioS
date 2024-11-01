@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -20,7 +21,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -227,8 +230,34 @@ public class animalesControler implements Initializable {
 
     @FXML
     void infoAnimal(ActionEvent event) {
+        Object selectedAnimal = tablaVista.getSelectionModel().getSelectedItem();
+        if (selectedAnimal == null) {
+            ArrayList<String> errores = new ArrayList<>();
+            errores.add("Selecciona un animal antes de ver su información");
+            alerta(errores);
+        } else {
+            ArrayList<String> info = new ArrayList<>();
 
+            if (selectedAnimal instanceof Animal) {
+                Animal animal = (Animal) selectedAnimal;
+                info.add("Nombre: " + animal.getNombre());
+                info.add("Especie: " + animal.getEspecie());
+                info.add("Raza: " + animal.getRaza());
+                info.add("Sexo: " + animal.getSexo());
+                info.add("Edad: " + animal.getEdad());
+                info.add("Peso: " + animal.getPeso());
+                info.add("Observaciones: " + animal.getObservaciones());
+                info.add("Fecha de primera consulta: " + (animal.getFechaPrimeraConsulta() != null ? animal.getFechaPrimeraConsulta().toString() : "No disponible"));
+                String contenido = String.join("\n", info);
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setHeaderText(null);
+                alerta.setTitle("Información");
+                alerta.setContentText(contenido);
+                alerta.showAndWait();
+            }
+        }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
