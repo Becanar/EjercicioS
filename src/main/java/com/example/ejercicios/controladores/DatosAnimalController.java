@@ -262,6 +262,13 @@ public class DatosAnimalController implements Initializable {
                 alerta(lst);
                 return false;
             }
+            LocalDate localDate = datePicker.getValue();
+            if (localDate != null) {
+                Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                animal.setFechaPrimeraConsulta(date);
+            } else {
+                System.out.println("No date selected.");
+            }
             animal.setObservaciones(txtObservaciones.getText());
 
             // Establecimiento de la imagen

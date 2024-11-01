@@ -23,6 +23,7 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class animalesControler implements Initializable {
@@ -152,13 +153,77 @@ public class animalesControler implements Initializable {
 
     @FXML
     void borrarAnimal(ActionEvent event) {
+        Animal animal = tablaVista.getSelectionModel().getSelectedItem();
 
+        if (animal == null) {
+            ArrayList<String> lst = new ArrayList<>();
+            lst.add("No has seleccionado ningún animal.");
+            alerta(lst);
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(tablaVista.getScene().getWindow());
+        alert.setHeaderText(null);
+        alert.setTitle("Confirmación");
+        alert.setContentText("¿Estás seguro que quieres eliminar este animal? Esta acción no se puede deshacer.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            if (animalDao.eliminar(animal)) {
+                cargarAnimales();
+                confirmacion("Animal eliminado correctamente");
+            } else {
+                ArrayList<String> lst = new ArrayList<>();
+                lst.add("No se ha podido eliminar el animal.");
+                alerta(lst);
+            }
+        }
     }
+
 
     @FXML
     void editarAnimal(ActionEvent event) {
+        Animal animal = (Animal) tablaVista.getSelectionModel().getSelectedItem();
 
+        if (animal == null) {
+            ArrayList<String> lst = new ArrayList<>();
+            lst.add("No has seleccionado ningún animal.");
+            alerta(lst);
+        } else {
+            try {
+
+                Window ventana = tablaVista.getScene().getWindow();
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/ejercicios/fxml/DatosAnimal.fxml"));
+                DatosAnimalController controlador = new DatosAnimalController(animal);
+                fxmlLoader.setController(controlador);
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                try {
+                    Image img = new Image(getClass().getResource("/com/example/ejercicios/images/veet.jpg").toString());
+                    stage.getIcons().add(img);
+                } catch (Exception e) {
+                    System.out.println("Error al cargar la imagen: " + e.getMessage());
+                }
+                scene.getStylesheets().add(getClass().getResource("/com/example/ejercicios/estilo/style.css").toExternalForm());
+
+                stage.setTitle("EDITAR ANIMAL");
+                stage.initOwner(ventana);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+                cargarAnimales();
+
+            } catch (IOException e) {
+                ArrayList<String> lst = new ArrayList<>();
+                lst.add("No se ha podido abrir la ventana.");
+                alerta(lst);
+            }
+        }
     }
+
 
     @FXML
     void infoAnimal(ActionEvent event) {
